@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  db-test:
+    image: postgres:16-alpine
+    # Allow docker to assign a random name to avoid conflicts with the main database container
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    ports:
+      - "5432" #Allow docker to assign a random port to avoid conflicts

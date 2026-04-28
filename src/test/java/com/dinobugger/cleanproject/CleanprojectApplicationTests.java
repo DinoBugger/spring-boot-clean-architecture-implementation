@@ -5,6 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class CleanprojectApplicationTests {
+  // .\gradlew test "-Dspring.profiles.active=test" to run all tests with specific profile/
+
 
   @Test
   void contextLoads() {
