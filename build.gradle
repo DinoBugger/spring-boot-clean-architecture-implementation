@@ -1,12 +1,13 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.13'
+    id 'org.springframework.boot' version '4.0.4'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.liquibase.gradle' version '2.2.2'
 }
 
-group = 'com.dinobugger'
+group = 'com.cleanproject'
 version = '0.0.1-SNAPSHOT'
-description = 'cleanproject'
+description = 'project-implementation-of-clean-architecture'
 
 java {
     toolchain {
@@ -14,24 +15,63 @@ java {
     }
 }
 
+def propOrEnv = { String key, String defaultValue ->
+    project.findProperty(key)?.toString()
+            ?: System.getenv(key)
+            ?: defaultValue
+}
+
+def dbUrl      = propOrEnv("DB_POSTGRES_URL", "jdbc:postgresql://localhost:5432/spring_template_db?sslmode=disable")
+def dbUsername = propOrEnv("DB_POSTGRES_USERNAME", "user_admin")
+def dbPassword = propOrEnv("DB_POSTGRES_PASSWORD", "password_secret")
+
+bootRun {
+    environment "DB_POSTGRES_URL", dbUrl
+    environment "DB_POSTGRES_USERNAME", dbUsername
+    environment "DB_POSTGRES_PASSWORD", dbPassword
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-    runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testCompileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
+    runtimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'com.h2database:h2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    //Database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.liquibase:liquibase-core:5.0.2'
+
+    //Liquibase
+    liquibaseRuntime 'org.liquibase:liquibase-core:5.0.2'
+    liquibaseRuntime 'org.postgresql:postgresql'
+    liquibaseRuntime 'info.picocli:picocli:4.7.7'
 }
 
+liquibase {
+
+    activities {
+
+        register("main") {
+
+            changelogFile 'src/main/resources/db/changelog/db.changelog-master.yaml'
+            url dbUrl
+            username dbUsername
+            password dbPassword
+            driver 'org.postgresql.Driver'
+            logLevel 'info'
+        }
+
+    }
+    runList = 'main'
+}
 tasks.named('test') {
     useJUnitPlatform()
 }

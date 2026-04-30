@@ -3,17 +3,24 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/spring_template_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: user_admin
-    password: password_secret
+    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/spring_template_db?sslmode=disable}
+    username: ${DB_POSTGRES_USERNAME:user_admin}
+    password: ${DB_POSTGRES_PASSWORD:password_secret}
     driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+
   docker:
     compose:
+      enabled: true
       file: docker-compose.yaml
