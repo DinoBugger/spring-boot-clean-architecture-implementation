@@ -3,6 +3,12 @@ databaseChangeLog:
       id: 20260330-01-create-users
       author: dinobugger
       changes:
+#        - preConditions:     - This precondition checks need when you integrate liquibase in project with existing database,
+#                               if you are sure that the table doesn't exist(liquibase is integrated at initialization of the project)  you can skip this precondition
+#            onFail: MARK_RAN
+#            not:
+#              tableExists:
+#                tableName: users
         - createTable:
             tableName: users
             columns:
