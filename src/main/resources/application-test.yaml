@@ -1,7 +1,17 @@
 spring:
+  datasource:
+    url: jdbc:h2:mem:cleanproject_test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE #Using H2 with postgreSQL compatibility mode for testing
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
   docker:
     compose:
-      file: docker-compose-test.yaml
-      skip:
-        in-tests: false
-      lifecycle-management: start_and_stop    #This will start the test database before tests and stop it afterward
+      enabled: false
