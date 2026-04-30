@@ -3,7 +3,9 @@ plugins {
     id 'org.springframework.boot' version '4.0.4'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.liquibase.gradle' version '2.2.2'
+    id 'com.avast.gradle.docker-compose' version "0.17.12"
 }
+//com.avast.gradle.docker-compose allow gradle to create task like composeUp and composeDown to manage docker-compose
 
 group = 'com.cleanproject'
 version = '0.0.1-SNAPSHOT'
@@ -71,10 +73,33 @@ liquibase {
     }
     runList = 'main'
 }
+// configure for avast docker-compose plugin
+dockerCompose {
+    waitForTcpPorts = true
+    stopContainers = true
+
+    dev {
+        projectName = 'cleanproject'
+        useComposeFiles = ['docker-compose.dev.yaml']
+    }
+}
+
+
+
 tasks.named('test') {
     useJUnitPlatform()
 }
 
 tasks.withType(Test).configureEach {
     jvmArgs("-XX:+EnableDynamicAgentLoading")
+}
+
+
+tasks.register('runDev') {
+    group = 'Development'
+
+    dependsOn 'devComposeUp'
+    dependsOn 'bootRun'
+
+    tasks.named('bootRun').get().mustRunAfter('devComposeUp')
 }
