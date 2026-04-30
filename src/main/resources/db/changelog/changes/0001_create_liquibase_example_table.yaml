@@ -1,7 +1,7 @@
   databaseChangeLog:
   - changeSet:
       id: 0001-create-liquibase-example-table
-      author: copilot
+      author: dinobugger
       changes:
         - createTable:
             tableName: liquibase_example
