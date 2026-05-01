@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260501-01-seed-users
+      author: dinobugger
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Doe
+              - column:
+                  name: username
+                  value: jdoe
+              - column:
+                  name: password
+                  value: seeded-password-1
+              - column:
+                  name: email
+                  value: john.doe@example.com
+              - column:
+                  name: status
+                  value: ACTIVE
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: Jane
+              - column:
+                  name: last_name
+                  value: Smith
+              - column:
+                  name: username
+                  value: jsmith
+              - column:
+                  name: password
+                  value: seeded-password-2
+              - column:
+                  name: email
+                  value: jane.smith@example.com
+              - column:
+                  name: status
+                  value: ACTIVE
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: Bob
+              - column:
+                  name: last_name
+                  value: Taylor
+              - column:
+                  name: username
+                  value: btaylor
+              - column:
+                  name: password
+                  value: seeded-password-3
+              - column:
+                  name: email
+                  value: bob.taylor@example.com
+              - column:
+                  name: status
+                  value: INACTIVE
+
+
