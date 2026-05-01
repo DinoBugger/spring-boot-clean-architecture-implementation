@@ -17,7 +17,7 @@ dependency-management = { id = "io.spring.dependency-management", version.ref = 
 liquibase-gradle = { id = "org.liquibase.gradle", version.ref = "liquibaseGradle" }
 docker-compose = { id = "com.avast.gradle.docker-compose", version.ref = "dockerCompose" }
 
-[libs]
+[libraries]
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBoot" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
