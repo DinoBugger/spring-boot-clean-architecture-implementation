@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/0001_create_liquibase_example_table.yaml
   - include:
       file: db/changelog/changes/0001_create_users_table.yaml
+  - include:
+      file: db/changelog/changes/0002_seed_users.yaml
