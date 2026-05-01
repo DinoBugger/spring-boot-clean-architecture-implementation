@@ -91,6 +91,70 @@ dockerCompose {
     }
 }
 
+// Provide alternative Liquibase tasks that run the CLI via the liquibaseRuntime classpath.
+// This avoids using the Gradle Liquibase plugin task implementation which may be
+// incompatible with the Gradle version used by the wrapper.
+tasks.register('liquibaseUpdate', JavaExec) {
+    group = 'Liquibase'
+    description = 'Apply pending Liquibase changesets using liquibaseRuntime classpath'
+    mainClass.set('liquibase.integration.commandline.Main')
+    classpath = configurations.liquibaseRuntime
+    // Run from src/main/resources so relative includes inside the changelog are resolved
+    workingDir = file('src/main/resources')
+    args = [
+        "--url=${dbUrl}",
+        "--username=${dbUsername}",
+        "--password=${dbPassword}",
+        '--changeLogFile=db/changelog/db.changelog-master.yaml',
+        'update'
+    ]
+}
+
+tasks.register('liquibaseStatus', JavaExec) {
+    group = 'Liquibase'
+    description = 'Show pending Liquibase changesets (status)'
+    mainClass.set('liquibase.integration.commandline.Main')
+    classpath = configurations.liquibaseRuntime
+    workingDir = file('src/main/resources')
+    args = [
+        "--url=${dbUrl}",
+        "--username=${dbUsername}",
+        "--password=${dbPassword}",
+        '--changeLogFile=db/changelog/db.changelog-master.yaml',
+        'status'
+    ]
+}
+
+tasks.register('liquibaseUpdateSql', JavaExec) {
+    group = 'Liquibase'
+    description = 'Print the SQL for pending Liquibase changesets'
+    mainClass.set('liquibase.integration.commandline.Main')
+    classpath = configurations.liquibaseRuntime
+    workingDir = file('src/main/resources')
+    args = [
+        "--url=${dbUrl}",
+        "--username=${dbUsername}",
+        "--password=${dbPassword}",
+        '--changeLogFile=db/changelog/db.changelog-master.yaml',
+        'updateSQL'
+    ]
+}
+
+tasks.register('liquibaseValidate', JavaExec) {
+    group = 'Liquibase'
+    description = 'Validate the Liquibase changelog'
+    mainClass.set('liquibase.integration.commandline.Main')
+    classpath = configurations.liquibaseRuntime
+    workingDir = file('src/main/resources')
+    args = [
+        "--url=${dbUrl}",
+        "--username=${dbUsername}",
+        "--password=${dbPassword}",
+        '--changeLogFile=db/changelog/db.changelog-master.yaml',
+        'validate'
+    ]
+}
+
 
 
 tasks.named('test') {
