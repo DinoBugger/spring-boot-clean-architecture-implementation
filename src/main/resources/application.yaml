@@ -2,4 +2,4 @@ spring:
   application:
     name: cleanproject
   profiles:
-    active: dev
+    default: dev
