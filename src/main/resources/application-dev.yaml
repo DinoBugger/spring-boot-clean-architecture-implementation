@@ -19,6 +19,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
+    open-in-view: false  # Turn off Open Session in View to prevent LazyInitializationException in web applications
 
   docker:
     compose:

@@ -7,6 +7,12 @@ plugins {
 }
 //com.avast.gradle.docker-compose allow gradle to create task like composeUp and composeDown to manage docker-compose
 
+
+// Remove default logging(Logback) to avoid conflicts with log4j2
+configurations.configureEach {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
 group = 'com.cleanproject'
 version = '0.0.1-SNAPSHOT'
 description = 'project-implementation-of-clean-architecture'
@@ -40,6 +46,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
