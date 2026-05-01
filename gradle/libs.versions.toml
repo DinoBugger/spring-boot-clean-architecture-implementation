@@ -1,0 +1,37 @@
+[versions]
+springBoot = "4.0.4"
+springDependencyManagement = "1.1.7"
+liquibaseGradle = "2.2.2"
+dockerCompose = "0.17.12"
+
+liquibaseCore = "5.0.2"
+picocli = "4.7.7"       # A command-line parsing library used by Liquibase for its CLI. Not directly used in the application, but required for Liquibase's command-line functionality.
+postgresql = "42.6.0"
+h2 = "2.1.214"
+junitPlatformLauncher = "1.9.3"
+log4j2 = "2.20.0"
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+liquibase-gradle = { id = "org.liquibase.gradle", version.ref = "liquibaseGradle" }
+docker-compose = { id = "com.avast.gradle.docker-compose", version.ref = "dockerCompose" }
+
+[libs]
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBoot" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springBoot" }
+spring-boot-starter-log4j2 = { module = "org.springframework.boot:spring-boot-starter-log4j2", version.ref = "springBoot" }
+
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibaseCore" }
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatformLauncher" }
+log4j2 = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j2" }
+
+[bundles]
+liquibase = ["liquibase-core", "picocli"]
+
